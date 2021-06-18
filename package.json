@@ -1,0 +1,31 @@
+{
+  "name": "projectzero",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./app/src/index.ts",
+    "test": "jest",
+    "compile": "tsc"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.928.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@types/jest": "^26.0.23",
+    "babel-jest": "^27.0.2",
+    "jest": "^27.0.4",
+    "nodemon": "^2.0.7",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.2"
+  }
+}
