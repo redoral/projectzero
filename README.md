@@ -6,7 +6,7 @@ The server returns a **JSON object** of each monster's information as a response
 
 ### Getting Monsters
 
-There are 3 ways to get monster data with this API, and you can simply do this by specifying the endpoints. 
+You can get all monsters, all monsters under a specific category (type), or a single monster. You can simply do all of these by specifying the endpoint. 
 
 **Examples:**
 * http://localhost:3000/monsters - returns all of the monsters.
