@@ -1,7 +1,7 @@
 // imports MonsterDao class
 import MonsterDao from '../dao/monsterDao';
 
-// create new dao object from MonsterDao class
+// creates a new object from MonsterDao class
 const monsterDao = new MonsterDao();
 
 // gets all monsters 
