@@ -18,6 +18,7 @@ export async function getAllMonsters(req, res){
 // gets monsters by type
 export async function getAllMonstersByType(req, res){
   const { type } = req.params;
+
   try {
     const monsters = await monsterDao.getMonstersByType(type.replace(/_/g, ' '));
     return res.status(200).json(monsters);
@@ -45,6 +46,7 @@ export async function addMonster(req, res){
   const monsterCheck = await monsterDao.getMonsterById(Number(req.body.id));
   const monsterKeys = Object.keys(monsterCheck);
 
+  // checks if monster already exists via id, adds new monster if not
   if (monsterKeys.length > 0){
     return res.status(400).send("Item with id already exists. Try using /monsters/update/{id} instead if you want to update a monster.");
   } else {
@@ -65,9 +67,11 @@ export async function updateMonster(req, res){
   const monsterKeys = Object.keys(monsterCheck);
   const bodyId = req.body.id;
 
+  // checks if monster already exists via id, updates monster if yes
+  // also ensures that the user is updating the right item by checking the id in the uri and request body
   if (monsterKeys.length === 0){
     return res.status(400).json({err: 'Item does not exist'});
-  } else if (Number(bodyId) === Number(id)){
+  } else if (Number(bodyId) === Number(id)){ 
     try {
       await monsterDao.addOrUpdateMonster(req.body);
       return res.status(200).send("Monster updated successfully.");

@@ -7,6 +7,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
 
+// welcome screen for base uri
+app.use('/', (req, res) => {
+  res.send("Welcome to the Witcher 3 Beastiary API. Created by Red Oral.");
+});
+
 // monsters endpoints
 const monstersRouter = express.Router();
 monstersRouter.get('/', monster.getAllMonsters); //gets all monsters, default endpoint
@@ -16,7 +21,7 @@ monstersRouter.put('/add', monster.addMonster); // adds a new monster
 monstersRouter.put('/update/:id/', monster.updateMonster); // updates an existing monster via id
 monstersRouter.delete('/delete/:id', monster.deleteMonster); // deletes a monster
 
-// binds base router to the monstersRouter
+// binds /monsters endpoint to the monstersRouter
 app.use('/monsters', monstersRouter);
 
 // start server using defined port

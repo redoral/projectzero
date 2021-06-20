@@ -13,10 +13,10 @@ AWS.config.update({
 
 // init dynamoclient, define db table, call dotenv config
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
-const MONSTERS_TABLE = "w3_beastiary";
+const MONSTERS_TABLE = process.env.MONSTERS_TABLE;
 
  
-// monsterdao interface, defines functions
+// monsterdao interface, defines functions for the class
 interface IMonsterDao {
     getMonsters: () => Promise<IMonster[]>;
     getOneMonster: (name:string, type:string) => Promise<IMonster[]>;
@@ -61,7 +61,7 @@ export default class MonsterDao implements IMonsterDao {
         return monster.Items as IMonster[];
     }
 
-    // gets all monsters where type = beasts from the database
+    // gets all monsters of a certain type from the database
     public async getMonstersByType(type:string): Promise<IMonster[] | null> {
         const params = {
             TableName: MONSTERS_TABLE,

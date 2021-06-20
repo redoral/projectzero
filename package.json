@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./app/src/index.ts",
+    "start": "node ./dist/index.js",
+    "dev": "nodemon ./app/src/index.ts",
     "test": "jest",
     "compile": "tsc"
   },
