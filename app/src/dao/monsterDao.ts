@@ -32,7 +32,6 @@ export default class MonsterDao implements IMonsterDao{
         const params = {
             TableName: MONSTERS_TABLE,
             IndexName: 'type-name-index',
-            ScanIndexForward: false,
             ProjectionExpression: '#name, #type, susceptibility, loot',
             ExpressionAttributeNames:{
                 '#name': 'name',
@@ -66,12 +65,11 @@ export default class MonsterDao implements IMonsterDao{
         return Promise.resolve(monsters.Items as IMonster[]);
     }
 
-    // gets a specific monster from database
+    // gets a specific monster from the database
     public async getOneMonster(name:string, type:string): Promise<IMonster[]>{
         const params = {
             TableName: MONSTERS_TABLE,
             IndexName: 'type-name-index',
-            ScanIndexForward: true,
             ProjectionExpression: '#name, #type, susceptibility, loot',
             KeyConditionExpression: '#name = :name and #type = :type',
             ExpressionAttributeValues: {
@@ -91,7 +89,7 @@ export default class MonsterDao implements IMonsterDao{
         return Promise.resolve(monster.Items as IMonster[]);
     }
 
-    // gets monster by id
+    // gets monster by id from the database
     public async getMonsterById(id:number): Promise<IMonster[]>{
         const params = {
             TableName: MONSTERS_TABLE,

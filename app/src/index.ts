@@ -9,14 +9,14 @@ app.use(express.json());
 
 // monsters endpoints
 const monstersRouter = express.Router();
-monstersRouter.get('/monsters', monster.getAllMonsters); // gets all monsters, default endpoint
-monstersRouter.get('/monsters/:type', monster.getAllMonstersByType); // gets all monsters in specified type
-monstersRouter.get('/monsters/:type/:name', monster.getMonster); // gets a specific monster in a type
-monstersRouter.post('/monsters', monster.addMonster); // adds a new monster
-monstersRouter.put('/monsters/:id', monster.updateMonster); // updates an existing monster via id
-monstersRouter.delete('/monsters/:id', monster.deleteMonster); // deletes a monster
+monstersRouter.get('/monsters', monster.getAllMonsters); // calls the getAllMonsters() function from the controller
+monstersRouter.get('/monsters/:type', monster.getAllMonstersByType); // calls the getAllMonstersByType() function from the controller
+monstersRouter.get('/monsters/:type/:name', monster.getMonster); // calls the getMonster() function from the controller
+monstersRouter.post('/monsters', monster.addMonster); // calls the addMonster() function from the controller
+monstersRouter.put('/monsters/:id', monster.updateMonster); // calls the updateMonster() function from the controller
+monstersRouter.delete('/monsters/:id', monster.deleteMonster); // calls the deleteMonster() function from the controller
 
-// binds /monsters endpoint to the monstersRouter
+// setup base endpoint
 app.use('/', monstersRouter);
 
 // start server using defined port

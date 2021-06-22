@@ -14,33 +14,31 @@ function uriManipulator(str){
   return splitter.join(' ');
 }
 
-// gets all monsters
+// gets all monsters by calling getAllMonsters() function from the dao
 export async function getAllMonsters(req, res){
   try{
-    const monsters = await monsterDao.getMonsters();
-    return res.status(200).json(monsters);
+    return res.status(200).json(await monsterDao.getMonsters());
   }catch (error){
     console.error(error);
     return res.status(500).json({err: 'Something went wrong.'});
   }
 }
 
-// gets monsters by type
+// gets monsters by type by calling the getAllMonstersByType() function from the dao
 export async function getAllMonstersByType(req, res){
   // takes the value of type from the uri and calls the uriManipulator function to that value
   const { type } = req.params;
   const monsterType = uriManipulator(type);
 
   try{
-    const monsters = await monsterDao.getMonstersByType(monsterType);
-    return res.status(200).json(monsters);
+    return res.status(200).json(await monsterDao.getMonstersByType(monsterType));
   }catch (error){
     console.error(error);
     return res.status(500).json({err: 'Something went wrong.'});
   }
 }
 
-// gets specific monster
+// gets specific monster by calling the getOneMonster() function from the dao
 export async function getMonster(req, res){
   // takes the value of name and type from the uri and calls the uriManipulator function on the two values
   const { name, type } = req.params;
@@ -48,15 +46,14 @@ export async function getMonster(req, res){
   const monsterType = uriManipulator(type);
 
   try{
-    const monster = await monsterDao.getOneMonster(monsterName, monsterType);
-    return res.status(200).json(monster);
+    return res.status(200).json(await monsterDao.getOneMonster(monsterName, monsterType));
   }catch (error){
     console.error(error);
     return res.status(500).json({err: 'Something went wrong.'});
   }
 }
 
-// adds monster
+// adds monster by calling the addOrUpdateMonster() function from the dao
 export async function addMonster(req, res){
   const monsterCheck = await monsterDao.getMonsterById(Number(req.body.id));
   const monsterKeys = Object.keys(monsterCheck);
@@ -75,7 +72,7 @@ export async function addMonster(req, res){
   }
 }
 
-// updates a monster
+// updates a monster by calling the addOrUpdateMonster() function from the dao
 export async function updateMonster(req, res){
   const { id } = req.params;
   const monsterCheck = await monsterDao.getMonsterById(Number(id))
@@ -98,7 +95,7 @@ export async function updateMonster(req, res){
   }
 }
 
-// deletes a monster (your children will love you for this one)
+// deletes a monster by calling the deleteMonster() from the the dao
 export async function deleteMonster(req, res){
   const { id } = req.params;
 

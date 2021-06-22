@@ -20,7 +20,6 @@ class MonsterDao {
         const params = {
             TableName: MONSTERS_TABLE,
             IndexName: 'type-name-index',
-            ScanIndexForward: false,
             ProjectionExpression: '#name, #type, susceptibility, loot',
             ExpressionAttributeNames: {
                 '#name': 'name',
@@ -51,12 +50,11 @@ class MonsterDao {
         }).promise();
         return Promise.resolve(monsters.Items);
     }
-    // gets a specific monster from database
+    // gets a specific monster from the database
     async getOneMonster(name, type) {
         const params = {
             TableName: MONSTERS_TABLE,
             IndexName: 'type-name-index',
-            ScanIndexForward: true,
             ProjectionExpression: '#name, #type, susceptibility, loot',
             KeyConditionExpression: '#name = :name and #type = :type',
             ExpressionAttributeValues: {
@@ -75,7 +73,7 @@ class MonsterDao {
         }).promise();
         return Promise.resolve(monster.Items);
     }
-    // gets monster by id
+    // gets monster by id from the database
     async getMonsterById(id) {
         const params = {
             TableName: MONSTERS_TABLE,
