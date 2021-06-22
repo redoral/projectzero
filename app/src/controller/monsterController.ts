@@ -48,11 +48,11 @@ export async function addMonster(req, res){
 
   // checks if monster already exists via id, stops user if yes
   if (monsterKeys.length > 0){
-    return res.status(400).send("Item with id already exists. Try using /monsters/update/{id} instead if you want to update a monster.");
+    return res.status(400).send('Item with id already exists. Try using /monsters/update/{id} instead if you want to update a monster.');
   } else {
     try{
       await monsterDao.addOrUpdateMonster(req.body);
-      return res.status(200).send("Monster added successfully.");
+      return res.status(200).send('Monster added successfully.');
     }catch (error){
       console.error(error);
       return res.status(500).json({err: 'Something went wrong.'});
@@ -73,13 +73,13 @@ export async function updateMonster(req, res){
   } else if (Number(req.body.id) === Number(id)){ 
     try{
       await monsterDao.addOrUpdateMonster(req.body);
-      return res.status(200).send("Monster updated successfully.");
+      return res.status(200).send('Monster updated successfully.');
     }catch (error){
       console.error(error);
       return res.status(500).json({err: 'Something went wrong.'});
     }
   } else {
-    return res.status(400).json({err: 'Cannot modify id of monster.'});
+    return res.status(400).json({err: 'Cannot modify id of monster. Please make sure the id in the uri matches the monster you are updating.'});
   }
 }
 
@@ -89,7 +89,7 @@ export async function deleteMonster(req, res){
 
   try{
     await monsterDao.deleteMonster(Number(id));
-    return res.status(200).send("Monster deleted successfully.");
+    return res.status(200).send('Monster deleted successfully.');
   }catch (error){
     console.error(error);
     return res.status(500).json({err: 'Something went wrong.'});

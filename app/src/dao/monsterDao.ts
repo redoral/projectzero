@@ -31,25 +31,56 @@ export default class MonsterDao implements IMonsterDao{
     public async getMonsters(): Promise<IMonster[]>{
         const params = {
             TableName: MONSTERS_TABLE,
+            IndexName: 'type-name-index',
+            ScanIndexForward: false,
+            ProjectionExpression: '#name, #type, susceptibility, loot',
+            ExpressionAttributeNames:{
+                '#name': 'name',
+                '#type': 'type'
+            }
         };
 
         const beasts = await dynamoClient.scan(params).promise();
         return Promise.resolve(beasts.Items as IMonster[]);
     }
 
+    // gets all monsters of a certain type from the database
+    public async getMonstersByType(type:string): Promise<IMonster[] | null>{
+        const params = {
+            TableName: MONSTERS_TABLE,
+            IndexName: 'type-name-index',
+            ScanIndexForward: true,
+            ProjectionExpression: '#name, #type, susceptibility, loot',
+            KeyConditionExpression: '#type = :type',
+            ExpressionAttributeValues: {':type': type },
+            ExpressionAttributeNames:{
+                '#type': 'type',
+                '#name': 'name'
+            }
+        };
+
+        const monsters = await dynamoClient.query(params, (err, data) => {
+            if (err){ console.log(err, err.stack); }
+        }).promise();
+
+        return Promise.resolve(monsters.Items as IMonster[]);
+    }
+
     // gets a specific monster from database
     public async getOneMonster(name:string, type:string): Promise<IMonster[]>{
         const params = {
             TableName: MONSTERS_TABLE,
-            IndexName: "type-name-index",
-            KeyConditionExpression: "#name = :name and #type = :type",
+            IndexName: 'type-name-index',
+            ScanIndexForward: true,
+            ProjectionExpression: '#name, #type, susceptibility, loot',
+            KeyConditionExpression: '#name = :name and #type = :type',
             ExpressionAttributeValues: {
-                ":name": name,
-                ":type": type
+                ':name': name,
+                ':type': type
             },
             ExpressionAttributeNames:{
-                "#name": "name",
-                "#type": "type"
+                '#name': 'name',
+                '#type': 'type'
             }
         };
 
@@ -60,34 +91,16 @@ export default class MonsterDao implements IMonsterDao{
         return Promise.resolve(monster.Items as IMonster[]);
     }
 
-    // gets all monsters of a certain type from the database
-    public async getMonstersByType(type:string): Promise<IMonster[] | null>{
-        const params = {
-            TableName: MONSTERS_TABLE,
-            IndexName: 'type-name-index',
-            ScanIndexForward: false,
-            ExpressionAttributeValues: {":type": type },
-            ExpressionAttributeNames:{"#type": "type"},
-            KeyConditionExpression: "#type = :type"
-        };
-
-        const beasts = await dynamoClient.query(params, (err, data) => {
-            if (err){ console.log(err, err.stack); }
-        }).promise();
-
-        return Promise.resolve(beasts.Items as IMonster[]);
-    }
-
-    // gets specific monster from database
+    // gets monster by id
     public async getMonsterById(id:number): Promise<IMonster[]>{
         const params = {
             TableName: MONSTERS_TABLE,
-            KeyConditionExpression: "#id = :id",
+            KeyConditionExpression: '#id = :id',
             ExpressionAttributeValues: {
-                ":id": id,
+                ':id': id,
             },
             ExpressionAttributeNames:{
-                "#id": "id",
+                '#id': 'id',
             }
         };
         
