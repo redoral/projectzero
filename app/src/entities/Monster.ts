@@ -8,8 +8,6 @@ export interface IMonster {
 }
 
 // creates a default monster class that implements the imonster interface
-class Monster implements IMonster{
-    constructor(public id, public name, public type, public susceptiblity, public loot){}
+export default class Monster implements IMonster{
+    constructor(public id:number, public name:string, public type:string, public susceptiblity:[], public loot:[]){}
 }
-
-export default Monster;
