@@ -19,9 +19,11 @@ async function getAllMonsters(req, res) {
 exports.getAllMonsters = getAllMonsters;
 // gets monsters by type
 async function getAllMonstersByType(req, res) {
+    // takes the value of type from the uri and calls the uriManipulator function to that value
     const { type } = req.params;
+    const monsterType = uriManipulator(type);
     try {
-        const monsters = await monsterDao.getMonstersByType(type.replace(/_/g, ' '));
+        const monsters = await monsterDao.getMonstersByType(monsterType);
         return res.status(200).json(monsters);
     }
     catch (error) {
@@ -30,11 +32,14 @@ async function getAllMonstersByType(req, res) {
     }
 }
 exports.getAllMonstersByType = getAllMonstersByType;
-// gets specific monster by type
+// gets specific monster
 async function getMonster(req, res) {
+    // takes the value of name and type from the uri and calls the uriManipulator function on the two values
     const { name, type } = req.params;
+    const monsterName = uriManipulator(name);
+    const monsterType = uriManipulator(type);
     try {
-        const monster = await monsterDao.getOneMonster(name.replace(/_/g, ' '), type.replace(/_/g, ' '));
+        const monster = await monsterDao.getOneMonster(monsterName, monsterType);
         return res.status(200).json(monster);
     }
     catch (error) {
@@ -101,3 +106,11 @@ async function deleteMonster(req, res) {
     }
 }
 exports.deleteMonster = deleteMonster;
+// function that capitalizes the first letter of every word, replaces underscore with spaces
+function uriManipulator(str) {
+    let i, splitter = str.split('_');
+    for (i = 0; i < splitter.length; i++) {
+        splitter[i] = splitter[i].charAt(0).toUpperCase() + splitter[i].slice(1);
+    }
+    return splitter.join(' ');
+}

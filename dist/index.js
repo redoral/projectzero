@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // imports express and monster controller
 const express = require("express");
 const monster = require("./controller/monsterController");
-// intialize express to app variable, define port to use, enable json middleware
+// intialize express, define port to use, enable json middleware
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
