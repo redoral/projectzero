@@ -10,8 +10,12 @@ You can get all monsters, all monsters under a specific category (type), or a si
 
 **Examples:**
 * http://localhost:3000/monsters - returns all of the monsters.
-* http://localhost:3000/monsters/Beasts - returns all of the monsters under the ***Beasts*** category.
-* http://localhost:3000/monsters/Beasts/Bear - only returns the information for ***Bear***, which is under the ***Beasts*** category.
+* http://localhost:3000/monsters/beasts - returns all of the monsters under the ***Beasts*** category.
+* http://localhost:3000/monsters/beasts/bear - only returns the information for ***Bear***, which is under the ***Beasts*** category.
+
+> For types and/or names with spaces, use underscores. For instance:<br>
+> http://localhost:3000/monsters/cursed_ones/the_toad_prince
+
 
 ### Adding, Updating, and Deleting Monsters
 
