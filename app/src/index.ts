@@ -2,7 +2,7 @@
 import * as express from 'express';
 import * as monster from './controller/monsterController';
 
-// intialize express to app variable, define port to use, enable json middleware
+// intialize express, define port to use, enable json middleware
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
