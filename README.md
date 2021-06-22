@@ -13,6 +13,10 @@ You can get all monsters, all monsters under a specific category (type), or a si
 * http://localhost:3000/monsters/Beasts - returns all of the monsters under the ***Beasts*** category.
 * http://localhost:3000/monsters/Beasts/Bear - only returns the information for ***Bear***, which is under the ***Beasts*** category.
 
+> For types and/or names with spaces, use underscores. For instance:<br>
+> http://localhost:3000/monsters/Cursed_Ones/The_Toad_Prince
+
+
 ### Adding, Updating, and Deleting Monsters
 
 For adding and updating, the server takes the request's body (a JSON object) and sends it to the database. For deleting, you just have to specify the monster's id in the URI.
