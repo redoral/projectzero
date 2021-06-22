@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteMonster = exports.updateMonster = exports.addMonster = exports.getMonster = exports.getAllMonstersByType = exports.getAllMonsters = void 0;
 // imports MonsterDao class
 const monsterDao_1 = require("../dao/monsterDao");
-// create new dao object from MonsterDao class
+// creates a new object from MonsterDao class
 const monsterDao = new monsterDao_1.default();
-// gets all monsters 
+// gets all monsters
 async function getAllMonsters(req, res) {
     try {
         const monsters = await monsterDao.getMonsters();
@@ -47,13 +47,14 @@ exports.getMonster = getMonster;
 async function addMonster(req, res) {
     const monsterCheck = await monsterDao.getMonsterById(Number(req.body.id));
     const monsterKeys = Object.keys(monsterCheck);
+    // checks if monster already exists via id, stops user if yes
     if (monsterKeys.length > 0) {
-        return res.status(400).send("Item with id already exists. Try using /monsters/update/{id} instead if you want to update a monster.");
+        return res.status(400).send('Item with id already exists. Try using /monsters/update/{id} instead if you want to update a monster.');
     }
     else {
         try {
             await monsterDao.addOrUpdateMonster(req.body);
-            return res.status(200).send("Monster added successfully.");
+            return res.status(200).send('Monster added successfully.');
         }
         catch (error) {
             console.error(error);
@@ -67,14 +68,15 @@ async function updateMonster(req, res) {
     const { id } = req.params;
     const monsterCheck = await monsterDao.getMonsterById(Number(id));
     const monsterKeys = Object.keys(monsterCheck);
-    const bodyId = req.body.id;
+    // checks if monster already exists via id, stops user if no
+    // also ensures that the user is updating the right item by checking the id in the uri and request body
     if (monsterKeys.length === 0) {
         return res.status(400).json({ err: 'Item does not exist' });
     }
-    else if (Number(bodyId) === Number(id)) {
+    else if (Number(req.body.id) === Number(id)) {
         try {
             await monsterDao.addOrUpdateMonster(req.body);
-            return res.status(200).send("Monster updated successfully.");
+            return res.status(200).send('Monster updated successfully.');
         }
         catch (error) {
             console.error(error);
@@ -82,7 +84,7 @@ async function updateMonster(req, res) {
         }
     }
     else {
-        return res.status(400).json({ err: 'Cannot modify id of monster.' });
+        return res.status(400).json({ err: 'Cannot modify id of monster. Please make sure the id in the uri matches the monster you are updating.' });
     }
 }
 exports.updateMonster = updateMonster;
@@ -91,7 +93,7 @@ async function deleteMonster(req, res) {
     const { id } = req.params;
     try {
         await monsterDao.deleteMonster(Number(id));
-        return res.status(200).send("Monster deleted successfully.");
+        return res.status(200).send('Monster deleted successfully.');
     }
     catch (error) {
         console.error(error);

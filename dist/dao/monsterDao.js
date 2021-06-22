@@ -1,41 +1,71 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// import monster interface
+// imports all from aws-sdk, imonster interface, and dotenv config
 const AWS = require("aws-sdk");
 const dotenv_1 = require("dotenv");
 dotenv_1.config();
-// configure aws for access
+// configure aws for access using environment variables (dotenv)
 AWS.config.update({
     region: process.env.AWS_DEFAULT_REGION,
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
-// init dynamoclient, define db table, call dotenv config
+// init dynamoclient, define db table
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
-const MONSTERS_TABLE = "w3_beastiary";
+const MONSTERS_TABLE = process.env.MONSTERS_TABLE;
 // monsterdao class that implements imonsterdao interface, includes all database methods
 class MonsterDao {
     // gets all monsters from the database
     async getMonsters() {
         const params = {
             TableName: MONSTERS_TABLE,
+            IndexName: 'type-name-index',
+            ScanIndexForward: false,
+            ProjectionExpression: '#name, #type, susceptibility, loot',
+            ExpressionAttributeNames: {
+                '#name': 'name',
+                '#type': 'type'
+            }
         };
         const beasts = await dynamoClient.scan(params).promise();
-        return beasts.Items;
+        return Promise.resolve(beasts.Items);
     }
-    // gets specific monster from database
+    // gets all monsters of a certain type from the database
+    async getMonstersByType(type) {
+        const params = {
+            TableName: MONSTERS_TABLE,
+            IndexName: 'type-name-index',
+            ScanIndexForward: true,
+            ProjectionExpression: '#name, #type, susceptibility, loot',
+            KeyConditionExpression: '#type = :type',
+            ExpressionAttributeValues: { ':type': type },
+            ExpressionAttributeNames: {
+                '#type': 'type',
+                '#name': 'name'
+            }
+        };
+        const monsters = await dynamoClient.query(params, (err, data) => {
+            if (err) {
+                console.log(err, err.stack);
+            }
+        }).promise();
+        return Promise.resolve(monsters.Items);
+    }
+    // gets a specific monster from database
     async getOneMonster(name, type) {
         const params = {
             TableName: MONSTERS_TABLE,
-            IndexName: "type-name-index",
-            KeyConditionExpression: "#name = :name and #type = :type",
+            IndexName: 'type-name-index',
+            ScanIndexForward: true,
+            ProjectionExpression: '#name, #type, susceptibility, loot',
+            KeyConditionExpression: '#name = :name and #type = :type',
             ExpressionAttributeValues: {
-                ":name": name,
-                ":type": type
+                ':name': name,
+                ':type': type
             },
             ExpressionAttributeNames: {
-                "#name": "name",
-                "#type": "type"
+                '#name': 'name',
+                '#type': 'type'
             }
         };
         const monster = await dynamoClient.query(params, (err) => {
@@ -43,35 +73,18 @@ class MonsterDao {
                 console.log(err, err.stack);
             }
         }).promise();
-        return monster.Items;
+        return Promise.resolve(monster.Items);
     }
-    // gets all monsters where type = beasts from the database
-    async getMonstersByType(type) {
-        const params = {
-            TableName: MONSTERS_TABLE,
-            IndexName: 'type-name-index',
-            ScanIndexForward: false,
-            ExpressionAttributeValues: { ":type": type },
-            ExpressionAttributeNames: { "#type": "type" },
-            KeyConditionExpression: "#type = :type"
-        };
-        const beasts = await dynamoClient.query(params, (err, data) => {
-            if (err) {
-                console.log(err, err.stack);
-            }
-        }).promise();
-        return beasts.Items;
-    }
-    // gets specific monster from database
+    // gets monster by id
     async getMonsterById(id) {
         const params = {
             TableName: MONSTERS_TABLE,
-            KeyConditionExpression: "#id = :id",
+            KeyConditionExpression: '#id = :id',
             ExpressionAttributeValues: {
-                ":id": id,
+                ':id': id,
             },
             ExpressionAttributeNames: {
-                "#id": "id",
+                '#id': 'id',
             }
         };
         const monster = await dynamoClient.query(params, (err, data) => {
@@ -79,7 +92,7 @@ class MonsterDao {
                 console.log(err, err.stack);
             }
         }).promise();
-        return monster.Items;
+        return Promise.resolve(monster.Items);
     }
     // adds a new monster to the database
     async addOrUpdateMonster(monster) {
@@ -88,6 +101,7 @@ class MonsterDao {
             Item: monster
         };
         await dynamoClient.put(params).promise();
+        return Promise.resolve(null);
     }
     // deletes a monster from the database
     async deleteMonster(monsterId) {
@@ -101,6 +115,7 @@ class MonsterDao {
             else
                 console.log(data);
         }).promise();
+        return Promise.resolve(null);
     }
 }
 exports.default = MonsterDao;
