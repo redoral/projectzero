@@ -4,6 +4,16 @@ import MonsterDao from '../dao/monsterDao';
 // creates a new object from MonsterDao class
 const monsterDao = new MonsterDao();
 
+// function that capitalizes the first letter of every word, replaces underscore with spaces
+function uriManipulator(str){
+  let i:number, splitter = str.split('_');
+  for (i = 0; i < splitter.length; i++){
+    splitter[i] = splitter[i].charAt(0).toUpperCase() + splitter[i].slice(1);
+  }
+
+  return splitter.join(' ');
+}
+
 // gets all monsters
 export async function getAllMonsters(req, res){
   try{
@@ -53,7 +63,7 @@ export async function addMonster(req, res){
 
   // checks if monster already exists via id, stops user if yes
   if (monsterKeys.length > 0){
-    return res.status(400).send('Item with id already exists. Try using /monsters/update/{id} instead if you want to update a monster.');
+    return res.status(400).json({err: 'Monster with id already exists.'});
   } else {
     try{
       await monsterDao.addOrUpdateMonster(req.body);
@@ -74,7 +84,7 @@ export async function updateMonster(req, res){
   // checks if monster already exists via id, stops user if no
   // also ensures that the user is updating the right item by checking the id in the uri and request body
   if (monsterKeys.length === 0){
-    return res.status(400).json({err: 'Item does not exist'});
+    return res.status(400).json({err: 'Item does not exist.'});
   } else if (Number(req.body.id) === Number(id)){ 
     try{
       await monsterDao.addOrUpdateMonster(req.body);
@@ -84,7 +94,7 @@ export async function updateMonster(req, res){
       return res.status(500).json({err: 'Something went wrong.'});
     }
   } else {
-    return res.status(400).json({err: 'Cannot modify id of monster. Please make sure the id in the uri matches the monster you are updating.'});
+    return res.status(400).json({err: 'id in the uri does not match the one in the request body.'});
   }
 }
 
@@ -99,14 +109,4 @@ export async function deleteMonster(req, res){
     console.error(error);
     return res.status(500).json({err: 'Something went wrong.'});
   }
-}
-
-// function that capitalizes the first letter of every word, replaces underscore with spaces
-function uriManipulator(str){
-  let i:number, splitter = str.split('_');
-  for (i = 0; i < splitter.length; i++){
-    splitter[i] = splitter[i].charAt(0).toUpperCase() + splitter[i].slice(1);
-  }
-
-  return splitter.join(' ');
 }
