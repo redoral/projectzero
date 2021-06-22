@@ -19,9 +19,12 @@ You can get all monsters, all monsters under a specific category (type), or a si
 
 ### Adding, Updating, and Deleting Monsters
 
-For adding and updating, the server takes the request's body (a JSON object) and sends it to the database. For deleting, you just have to specify the monster's id in the URI.
+1. For adding, send a POST request to the /monsters endpoint.
+2. For updating, send a PUT request to the /monsters/{id} endpoint and specify the monster's id.
+3. For deleting, send a DELETE request to the /monsters/{id} endpoint and specify the monster's id.
+
 
 **Examples:**
-* http://localhost:3000/monsters/add - adds a new monster using a put request's body, takes a JSON object.
-* http://localhost:3000/monsters/update/2 - updates the monster with an ***id*** of ***2*** using a put request's body, takes a JSON object.
-* http://localhost:3000/monsters/delete/5 - deletes the monster with an ***id*** of ***5***.
+* [POST] http://localhost:3000/monsters/  - adds a new monster using a put request's body, takes a JSON object.
+* [PUT] http://localhost:3000/monsters/2 - updates the monster with an ***id*** of ***2*** using a put request's body, takes a JSON object.
+* [DELETE] http://localhost:3000/monsters/5 - deletes the monster with an ***id*** of ***5***.
