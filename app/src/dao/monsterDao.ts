@@ -76,7 +76,7 @@ export default class MonsterDao implements IMonsterDao {
     }
 
     // gets monster by id from the database
-    public async checkIfMonsterExists(type, name): Promise<IMonster[]> {
+    public async checkIfMonsterExists(type:string, name:string): Promise<IMonster[]> {
         const params = {
             TableName: MONSTERS_TABLE,
             KeyConditionExpression: '#name = :name and #type = :type',
@@ -109,7 +109,7 @@ export default class MonsterDao implements IMonsterDao {
     }    
     
     // deletes a monster from the database
-    public async deleteMonster(type, name) {
+    public async deleteMonster(type:string, name:string) {
         const params = {
             TableName: MONSTERS_TABLE,
             Key: { 'type': type, 'name': name },

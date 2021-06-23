@@ -1,5 +1,6 @@
 // imports MonsterDao class
 import MonsterDao from '../dao/monsterDao';
+import { Request, Response } from 'express';
 
 // creates a new object from MonsterDao class
 const monsterDao = new MonsterDao();
@@ -16,7 +17,7 @@ function uriManipulator(str) {
 }
 
 // gets all monsters by calling getAllMonsters() function from the dao
-export async function getAllMonsters(req, res) {
+export async function getAllMonsters(req: Request, res: Response) {
   try {
     return res.status(200).json(await monsterDao.getMonsters());
   } catch (error) {
@@ -26,7 +27,7 @@ export async function getAllMonsters(req, res) {
 }
 
 // gets monsters by type by calling the getAllMonstersByType() function from the dao
-export async function getAllMonstersByType(req, res) {
+export async function getAllMonstersByType(req: Request, res: Response) {
   // takes the value of type from the request parameters and calls the uriManipulator function to that value
   const { type } = req.params;
   const monsterType = uriManipulator(type);
@@ -40,7 +41,7 @@ export async function getAllMonstersByType(req, res) {
 }
 
 // gets specific monster by calling the getOneMonster() function from the dao
-export async function getMonster(req, res) {
+export async function getMonster(req: Request, res: Response) {
   // takes the value of name and type from the request parameters and calls the uriManipulator function on the two values
   const { name, type } = req.params;
   const monsterName = uriManipulator(name);
@@ -55,7 +56,7 @@ export async function getMonster(req, res) {
 }
 
 // adds monster by calling the addOrUpdateMonster() function from the dao
-export async function addMonster(req, res) {
+export async function addMonster(req: Request, res: Response) {
   const monsterCheck = await monsterDao.checkIfMonsterExists(req.body.type, req.body.name);
   const monsterKeys = Object.keys(monsterCheck);
 
@@ -74,7 +75,7 @@ export async function addMonster(req, res) {
 }
 
 // updates a monster by calling the addOrUpdateMonster() function from the dao
-export async function updateMonster(req, res) {
+export async function updateMonster(req: Request, res: Response) {
   const { type, name } = req.params;
   const monsterType = uriManipulator(type);
   const monsterName = uriManipulator(name);
@@ -100,7 +101,7 @@ export async function updateMonster(req, res) {
 }
 
 // deletes a monster by calling the deleteMonster() from the the dao
-export async function deleteMonster(req, res) {
+export async function deleteMonster(req: Request, res: Response) {
   const { type, name } = req.params;
   const monsterType = uriManipulator(type);
   const monsterName = uriManipulator(name);
