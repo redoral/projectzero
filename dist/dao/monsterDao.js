@@ -13,7 +13,7 @@ AWS.config.update({
 // init dynamoclient, define db table
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
 const MONSTERS_TABLE = process.env.MONSTERS_TABLE;
-// monsterdao class that implements imonsterdao interface, includes all database methods
+// monsterdao class that implements imonsterdao interface, includes all db methods
 class MonsterDao {
     // gets all monsters from the database
     async getMonsters() {

@@ -16,7 +16,7 @@ const dynamoClient = new AWS.DynamoDB.DocumentClient();
 const MONSTERS_TABLE = process.env.MONSTERS_TABLE;
  
 // monsterdao interface, defines functions for the class
-interface IMonsterDao{
+interface IMonsterDao {
     getMonsters: () => Promise<IMonster[]>;
     getOneMonster: (name:string, type:string) => Promise<IMonster[]>;
     getMonstersByType: (type:string) => Promise<IMonster[] | null>;
@@ -24,8 +24,8 @@ interface IMonsterDao{
     deleteMonster: (id:number) => Promise<void>;
 }
 
-// monsterdao class that implements imonsterdao interface, includes all database methods
-export default class MonsterDao implements IMonsterDao{
+// monsterdao class that implements imonsterdao interface, includes all db methods
+export default class MonsterDao implements IMonsterDao {
     
     // gets all monsters from the database
     public async getMonsters(): Promise<IMonster[]>{
@@ -44,7 +44,7 @@ export default class MonsterDao implements IMonsterDao{
     }
 
     // gets all monsters of a certain type from the database
-    public async getMonstersByType(type:string): Promise<IMonster[] | null>{
+    public async getMonstersByType(type:string): Promise<IMonster[] | null> {
         const params = {
             TableName: MONSTERS_TABLE,
             IndexName: 'type-name-index',
@@ -66,7 +66,7 @@ export default class MonsterDao implements IMonsterDao{
     }
 
     // gets a specific monster from the database
-    public async getOneMonster(name:string, type:string): Promise<IMonster[]>{
+    public async getOneMonster(name:string, type:string): Promise<IMonster[]> {
         const params = {
             TableName: MONSTERS_TABLE,
             IndexName: 'type-name-index',
@@ -90,7 +90,7 @@ export default class MonsterDao implements IMonsterDao{
     }
 
     // gets monster by id from the database
-    public async getMonsterById(id:number): Promise<IMonster[]>{
+    public async getMonsterById(id:number): Promise<IMonster[]> {
         const params = {
             TableName: MONSTERS_TABLE,
             KeyConditionExpression: '#id = :id',
@@ -110,7 +110,7 @@ export default class MonsterDao implements IMonsterDao{
     }
     
     // adds a new monster to the database
-    public async addOrUpdateMonster(monster:IMonster){
+    public async addOrUpdateMonster(monster:IMonster) {
         const params = {
             TableName: MONSTERS_TABLE,
             Item: monster
@@ -121,7 +121,7 @@ export default class MonsterDao implements IMonsterDao{
     }    
     
     // deletes a monster from the database
-    public async deleteMonster(monsterId:number){
+    public async deleteMonster(monsterId:number) {
         const params = {
             TableName: MONSTERS_TABLE,
             Key: { id: monsterId }

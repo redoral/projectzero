@@ -19,7 +19,7 @@ monstersRouter.delete('/monsters/:id', monster.deleteMonster); // calls the dele
 // setup base endpoint
 app.use('/', monstersRouter);
 
-// start server using defined port
+// starts server using defined port
 app.listen(port, () => {
   console.log(`Listening on port ${process.env.PORT}`);
 });

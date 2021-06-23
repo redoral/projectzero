@@ -5,7 +5,7 @@ exports.deleteMonster = exports.updateMonster = exports.addMonster = exports.get
 const monsterDao_1 = require("../dao/monsterDao");
 // creates a new object from MonsterDao class
 const monsterDao = new monsterDao_1.default();
-// function that capitalizes the first letter of every word, replaces underscore with spaces
+// capitalizes the first letter of every word f, replaces underscore with spaces
 function uriManipulator(str) {
     let i, splitter = str.split('_');
     for (i = 0; i < splitter.length; i++) {
