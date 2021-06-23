@@ -20,11 +20,11 @@ You can get all monsters, all monsters under a specific category (type), or a si
 ### Adding, Updating, and Deleting Monsters
 
 1. For adding, send a POST request to the /monsters endpoint.
-2. For updating, send a PUT request to the /monsters/{id} endpoint and specify the monster's id.
-3. For deleting, send a DELETE request to the /monsters/{id} endpoint and specify the monster's id.
+2. For updating, send a PUT request to the /monsters/{type}/{name} endpoint and specify the type and name of the monster you want to update in the URI.
+3. For deleting, send a DELETE request to the /monsters/{type}}/{name} endpoint and specify the type and name of the monster you want to delete in the URI.
 
 
 **Examples:**
 * [POST] http://localhost:3000/monsters/  - adds a new monster using a put request's body, takes a JSON object.
-* [PUT] http://localhost:3000/monsters/2 - updates the monster with an ***id*** of ***2*** using a put request's body, takes a JSON object.
-* [DELETE] http://localhost:3000/monsters/5 - deletes the monster with an ***id*** of ***5***.
+* [PUT] http://localhost:3000/monsters/beasts/bear - updates the monster 'bear' (which is of type beasts) using the put request's body, takes a JSON object.
+* [DELETE] http://localhost:3000/monsters/beasts/bear - deletes the monster bear.

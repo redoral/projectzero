@@ -21,7 +21,7 @@ interface IMonsterDao {
     getOneMonster: (name:string, type:string) => Promise<IMonster[]>;
     getMonstersByType: (type:string) => Promise<IMonster[] | null>;
     addOrUpdateMonster: (monster: IMonster) => Promise<void>;
-    deleteMonster: (id:number) => Promise<void>;
+    deleteMonster: (type:string, name:string) => Promise<void>;
 }
 
 // monsterdao class that implements imonsterdao interface, includes all db methods
@@ -29,15 +29,7 @@ export default class MonsterDao implements IMonsterDao {
     
     // gets all monsters from the database
     public async getMonsters(): Promise<IMonster[]>{
-        const params = {
-            TableName: MONSTERS_TABLE,
-            IndexName: 'type-name-index',
-            ProjectionExpression: '#name, #type, susceptibility, loot',
-            ExpressionAttributeNames:{
-                '#name': 'name',
-                '#type': 'type'
-            }
-        };
+        const params = { TableName: MONSTERS_TABLE };
 
         const beasts = await dynamoClient.scan(params).promise();
         return Promise.resolve(beasts.Items as IMonster[]);
@@ -47,14 +39,10 @@ export default class MonsterDao implements IMonsterDao {
     public async getMonstersByType(type:string): Promise<IMonster[] | null> {
         const params = {
             TableName: MONSTERS_TABLE,
-            IndexName: 'type-name-index',
-            ScanIndexForward: true,
-            ProjectionExpression: '#name, #type, susceptibility, loot',
             KeyConditionExpression: '#type = :type',
             ExpressionAttributeValues: {':type': type },
             ExpressionAttributeNames:{
                 '#type': 'type',
-                '#name': 'name'
             }
         };
 
@@ -69,8 +57,6 @@ export default class MonsterDao implements IMonsterDao {
     public async getOneMonster(name:string, type:string): Promise<IMonster[]> {
         const params = {
             TableName: MONSTERS_TABLE,
-            IndexName: 'type-name-index',
-            ProjectionExpression: '#name, #type, susceptibility, loot',
             KeyConditionExpression: '#name = :name and #type = :type',
             ExpressionAttributeValues: {
                 ':name': name,
@@ -90,15 +76,17 @@ export default class MonsterDao implements IMonsterDao {
     }
 
     // gets monster by id from the database
-    public async getMonsterById(id:number): Promise<IMonster[]> {
+    public async checkIfMonsterExists(type, name): Promise<IMonster[]> {
         const params = {
             TableName: MONSTERS_TABLE,
-            KeyConditionExpression: '#id = :id',
+            KeyConditionExpression: '#name = :name and #type = :type',
             ExpressionAttributeValues: {
-                ':id': id,
+                ':name': name,
+                ':type': type
             },
             ExpressionAttributeNames:{
-                '#id': 'id',
+                '#name': 'name',
+                '#type': 'type'
             }
         };
         
@@ -121,10 +109,10 @@ export default class MonsterDao implements IMonsterDao {
     }    
     
     // deletes a monster from the database
-    public async deleteMonster(monsterId:number) {
+    public async deleteMonster(type, name) {
         const params = {
             TableName: MONSTERS_TABLE,
-            Key: { id: monsterId }
+            Key: { 'type': type, 'name': name },
           };
 
         await dynamoClient.delete(params, function(err, data) {

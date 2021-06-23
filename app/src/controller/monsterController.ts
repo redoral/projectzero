@@ -5,6 +5,7 @@ import MonsterDao from '../dao/monsterDao';
 const monsterDao = new MonsterDao();
 
 // capitalizes the first letter of every word in the provided string, replaces underscore with spaces
+// example: replaces 'cursed_ones' with 'Cursed Ones'
 function uriManipulator(str) {
   let i:number, splitter = str.split('_');
   for (i = 0; i < splitter.length; i++) {
@@ -55,12 +56,12 @@ export async function getMonster(req, res) {
 
 // adds monster by calling the addOrUpdateMonster() function from the dao
 export async function addMonster(req, res) {
-  const monsterCheck = await monsterDao.getMonsterById(Number(req.body.id));
+  const monsterCheck = await monsterDao.checkIfMonsterExists(req.body.type, req.body.name);
   const monsterKeys = Object.keys(monsterCheck);
 
-  // checks if monster already exists via id, stops user if yes
+  // checks if monster already exists via name and type, stops user if yes
   if (monsterKeys.length > 0) {
-    return res.status(400).json({err: 'Monster with id already exists.'});
+    return res.status(400).json({err: 'Monster already exists.'});
   } else {
     try {
       await monsterDao.addOrUpdateMonster(req.body);
@@ -74,15 +75,18 @@ export async function addMonster(req, res) {
 
 // updates a monster by calling the addOrUpdateMonster() function from the dao
 export async function updateMonster(req, res) {
-  const { id } = req.params;
-  const monsterCheck = await monsterDao.getMonsterById(Number(id))
+  const { type, name } = req.params;
+  const monsterType = uriManipulator(type);
+  const monsterName = uriManipulator(name);
+
+  const monsterCheck = await monsterDao.checkIfMonsterExists(monsterType, monsterName);
   const monsterKeys = Object.keys(monsterCheck);
 
-  // checks if monster already exists via id, stops user if no
+  // checks if monster already exists via name and type, stops user if no
   // also ensures that the user is updating the right item by checking the id in the uri and request body
   if (monsterKeys.length === 0) {
     return res.status(400).json({err: 'Item does not exist.'});
-  } else if (Number(req.body.id) === Number(id)) { 
+  } else if (req.body.name === monsterName && req.body.type === monsterType) { 
     try {
       await monsterDao.addOrUpdateMonster(req.body);
       return res.status(200).send('Monster updated successfully.');
@@ -91,16 +95,18 @@ export async function updateMonster(req, res) {
       return res.status(500).json({err: 'Something went wrong.'});
     }
   } else {
-    return res.status(400).json({err: 'id in the uri does not match the one in the request body.'});
-  }
+      return res.status(400).json({err: 'Cannot modify name and type of monster.'});
+  } 
 }
 
 // deletes a monster by calling the deleteMonster() from the the dao
 export async function deleteMonster(req, res) {
-  const { id } = req.params;
+  const { type, name } = req.params;
+  const monsterType = uriManipulator(type);
+  const monsterName = uriManipulator(name);
 
   try {
-    await monsterDao.deleteMonster(Number(id));
+    await monsterDao.deleteMonster(monsterType, monsterName);
     return res.status(200).send('Monster deleted successfully.');
   } catch (error) {
     console.error(error);

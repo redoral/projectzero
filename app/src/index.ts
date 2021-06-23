@@ -13,8 +13,8 @@ monstersRouter.get('/monsters', monster.getAllMonsters); // calls the getAllMons
 monstersRouter.get('/monsters/:type', monster.getAllMonstersByType); // calls the getAllMonstersByType() function from the controller
 monstersRouter.get('/monsters/:type/:name', monster.getMonster); // calls the getMonster() function from the controller
 monstersRouter.post('/monsters', monster.addMonster); // calls the addMonster() function from the controller
-monstersRouter.put('/monsters/:id', monster.updateMonster); // calls the updateMonster() function from the controller
-monstersRouter.delete('/monsters/:id', monster.deleteMonster); // calls the deleteMonster() function from the controller
+monstersRouter.put('/monsters/:type/:name', monster.updateMonster); // calls the updateMonster() function from the controller
+monstersRouter.delete('/monsters/:type/:name', monster.deleteMonster); // calls the deleteMonster() function from the controller
 
 // setup base endpoint
 app.use('/', monstersRouter);
