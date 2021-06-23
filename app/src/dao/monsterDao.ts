@@ -117,7 +117,7 @@ export default class MonsterDao implements IMonsterDao {
         };
 
         await dynamoClient.put(params).promise();
-        return Promise.resolve(null);
+        Promise.resolve(null);
     }    
     
     // deletes a monster from the database
@@ -127,11 +127,11 @@ export default class MonsterDao implements IMonsterDao {
             Key: { id: monsterId }
           };
 
-         await dynamoClient.delete(params, function(err, data) {
-            if (err) console.log(err);
-            else console.log(data);
-          }).promise();
+        await dynamoClient.delete(params, function(err, data) {
+        if (err) console.log(err);
+        else console.log(data);
+        }).promise();
 
-          return Promise.resolve(null);
+        Promise.resolve(null);
     }
 }
