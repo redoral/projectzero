@@ -1,4 +1,4 @@
-# The Witcher 3 Beastiary API 🐺
+# The Witcher 3 Bestiary API 🐺
 A RESTFul API that provides the name, type, susceptibility, and loot drops of each monster.
 ## Usage
 This API uses [Express](https://expressjs.com/) for routing endpoints and [DynamoDB](https://aws.amazon.com/dynamodb/) to store and retrieve each monster.
