@@ -1,4 +1,5 @@
 "use strict";
+<<<<<<< HEAD
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -33,14 +34,33 @@ app.use(cors_1.default());
 app.use(express_1.default.json());
 // monsters endpoints
 const monstersRouter = express_1.default.Router();
+=======
+Object.defineProperty(exports, "__esModule", { value: true });
+// imports express and monster controller
+const express = require("express");
+const monster = require("./controller/monsterController");
+// intialize express, define port to use, enable json middleware
+const app = express();
+const port = process.env.PORT || 3000;
+app.use(express.json());
+// monsters endpoints
+const monstersRouter = express.Router();
+>>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
 monstersRouter.get('/monsters', monster.getAllMonsters); // calls the getAllMonsters() function from the controller
 monstersRouter.get('/monsters/:type', monster.getAllMonstersByType); // calls the getAllMonstersByType() function from the controller
 monstersRouter.get('/monsters/:type/:name', monster.getMonster); // calls the getMonster() function from the controller
 monstersRouter.post('/monsters', monster.addMonster); // calls the addMonster() function from the controller
+<<<<<<< HEAD
 monstersRouter.put('/monsters/:type/:name', monster.updateMonster); // calls the updateMonster() function from the controller
 monstersRouter.delete('/monsters/:type/:name', monster.deleteMonster); // calls the deleteMonster() function from the controller
 // setup base endpoint
 app.use(monstersRouter);
+=======
+monstersRouter.put('/monsters/:id', monster.updateMonster); // calls the updateMonster() function from the controller
+monstersRouter.delete('/monsters/:id', monster.deleteMonster); // calls the deleteMonster() function from the controller
+// setup base endpoint
+app.use('/', monstersRouter);
+>>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
 // starts server using defined port
 app.listen(port, () => {
     console.log(`Listening on port ${process.env.PORT}`);

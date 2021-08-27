@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # The Witcher 3 Beastiary API 🐺
+=======
+# The Witcher 3 Bestiary API 🐺
+>>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
 A RESTFul API that provides the name, type, susceptibility, and loot drops of each monster.
 ## Usage
 This API uses [Express](https://expressjs.com/) for routing endpoints and [DynamoDB](https://aws.amazon.com/dynamodb/) to store and retrieve each monster.
@@ -27,4 +31,8 @@ You can get all monsters, all monsters under a specific category (type), or a si
 **Examples:**
 * [POST] http://localhost:3000/monsters/  - adds a new monster using a put request's body, takes a JSON object.
 * [PUT] http://localhost:3000/monsters/beasts/bear - updates the monster 'bear' (which is of type beasts) using the put request's body, takes a JSON object.
+<<<<<<< HEAD
 * [DELETE] http://localhost:3000/monsters/beasts/bear - deletes the monster bear.
+=======
+* [DELETE] http://localhost:3000/monsters/beasts/bear - deletes the monster bear.
+>>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea

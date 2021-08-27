@@ -1,12 +1,19 @@
 // imports express and monster controller
+<<<<<<< HEAD
 import express from 'express';
 import cors from 'cors'; 
+=======
+import * as express from 'express';
+>>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
 import * as monster from './controller/monsterController';
 
 // intialize express, define port to use, enable json middleware
 const app = express();
 const port = process.env.PORT || 3000;
+<<<<<<< HEAD
 app.use(cors());
+=======
+>>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
 app.use(express.json());
 
 // monsters endpoints
@@ -19,7 +26,11 @@ monstersRouter.put('/monsters/:type/:name', monster.updateMonster); // calls the
 monstersRouter.delete('/monsters/:type/:name', monster.deleteMonster); // calls the deleteMonster() function from the controller
 
 // setup base endpoint
+<<<<<<< HEAD
 app.use(monstersRouter);
+=======
+app.use('/', monstersRouter);
+>>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
 
 // starts server using defined port
 app.listen(port, () => {
