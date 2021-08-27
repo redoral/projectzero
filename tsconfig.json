@@ -1,14 +1,10 @@
 {
-    "compilerOptions": {
-        "target": "ES2018",
-        "outDir": "./dist",
-        "moduleResolution": "Node",
-<<<<<<< HEAD
-        "module": "CommonJS",
-        "esModuleInterop": true
-=======
-        "module": "CommonJS"
->>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
-    },
-    "include": ["./app/src/*.ts","./app/*.ts", "./app/src/*/*.ts"]
+  "compilerOptions": {
+    "target": "ES2018",
+    "outDir": "./dist",
+    "moduleResolution": "Node",
+    "module": "CommonJS",
+    "esModuleInterop": true
+  },
+  "include": ["./app/src/*.ts", "./app/*.ts", "./app/src/*/*.ts"]
 }
