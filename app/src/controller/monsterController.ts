@@ -8,12 +8,8 @@ const monsterDao = new MonsterDao();
 // capitalizes the first letter of every word in the provided string, replaces underscore with spaces
 // example: replaces 'cursed_ones' with 'Cursed Ones'
 function uriManipulator(str) {
-<<<<<<< HEAD
   let i: number,
     splitter = str.split('_');
-=======
-  let i:number, splitter = str.split('_');
->>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
   for (i = 0; i < splitter.length; i++) {
     splitter[i] = splitter[i].charAt(0).toUpperCase() + splitter[i].slice(1);
   }
@@ -27,11 +23,7 @@ export async function getAllMonsters(req: Request, res: Response) {
     return res.status(200).json(await monsterDao.getMonsters());
   } catch (error) {
     console.error(error);
-<<<<<<< HEAD
     return res.status(500).json({ err: 'Something went wrong.' });
-=======
-    return res.status(500).json({err: 'Something went wrong.'});
->>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
   }
 }
 
@@ -42,19 +34,12 @@ export async function getAllMonstersByType(req: Request, res: Response) {
   const monsterType = uriManipulator(type);
 
   try {
-<<<<<<< HEAD
     return res
       .status(200)
       .json(await monsterDao.getMonstersByType(monsterType));
   } catch (error) {
     console.error(error);
     return res.status(500).json({ err: 'Something went wrong.' });
-=======
-    return res.status(200).json(await monsterDao.getMonstersByType(monsterType));
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({err: 'Something went wrong.'});
->>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
   }
 }
 
@@ -66,19 +51,12 @@ export async function getMonster(req: Request, res: Response) {
   const monsterType = uriManipulator(type);
 
   try {
-<<<<<<< HEAD
     return res
       .status(200)
       .json(await monsterDao.getOneMonster(monsterName, monsterType));
   } catch (error) {
     console.error(error);
     return res.status(500).json({ err: 'Something went wrong.' });
-=======
-    return res.status(200).json(await monsterDao.getOneMonster(monsterName, monsterType));
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({err: 'Something went wrong.'});
->>>>>>> 224087c03cc37af7283c47c7fa22d8b2116fccea
   }
 }
 
