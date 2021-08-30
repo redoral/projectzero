@@ -14,8 +14,8 @@ You can get all monsters, all monsters under a specific category (type), or a si
 **Examples:**
 
 - http://localhost:3000/monsters - returns all of the monsters.
-- http://localhost:3000/monsters/beasts - returns all of the monsters under the **_Beasts_** category.
-- http://localhost:3000/monsters/beasts/bear - only returns the information for **_Bear_**, which is under the **_Beasts_** category.
+- http://localhost:3000/monsters/beast - returns all of the monsters under the **_Beasts_** category.
+- http://localhost:3000/monsters/beast/bear - only returns the information for **_Bear_**, which is under the **_Beasts_** category.
 
 > For types and/or names with spaces, use underscores. For instance:<br>
 > http://localhost:3000/monsters/cursed_ones/the_toad_prince
@@ -29,5 +29,5 @@ You can get all monsters, all monsters under a specific category (type), or a si
 **Examples:**
 
 - [POST] http://localhost:3000/monsters/ - adds a new monster using a put request's body, takes a JSON object.
-- [PUT] http://localhost:3000/monsters/beasts/bear - updates the monster 'bear' (which is of type beasts) using the put request's body, takes a JSON object.
-- [DELETE] http://localhost:3000/monsters/beasts/bear - deletes the monster bear.
+- [PUT] http://localhost:3000/monsters/beast/bear - updates the monster 'bear' (which is of type beasts) using the put request's body, takes a JSON object.
+- [DELETE] http://localhost:3000/monsters/beast/bear - deletes the monster bear.
