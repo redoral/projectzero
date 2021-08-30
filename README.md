@@ -18,7 +18,7 @@ You can get all monsters, all monsters under a specific category (type), or a si
 - http://localhost:3000/monsters/beast/bear - only returns the information for **_Bear_**, which is under the **_Beasts_** category.
 
 > For types and/or names with spaces, use underscores. For instance:<br>
-> http://localhost:3000/monsters/cursed_ones/the_toad_prince
+> http://localhost:3000/monsters/cursed_one/the_toad_prince
 
 ### Adding, Updating, and Deleting Monsters
 
